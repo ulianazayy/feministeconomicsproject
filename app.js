@@ -2118,9 +2118,9 @@ function animateHeroChart() {
 
 if (joinRoomCode) {
   state.screen = "setup";
+  state.mode = "join";
 }
-render();
-createRoom(); 
+render(); 
 supabase
   .channel("room-updates")
   .on(
