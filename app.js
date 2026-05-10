@@ -1,6 +1,12 @@
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+
+const supabase = createClient(
+  "https://ydtoedpdkwnhexbhncge.supabase.co",
+  "sb_publishable_lGw4GOJZfPM0dRD9OogiFg_bXJaCsMn"
+);
 const app = document.querySelector("#app");
 const metricTemplate = document.querySelector("#metric-template");
-const classroomShareUrl = "http://192.168.0.57:4173/index.html";
+const classroomShareUrl = "https://ulianazayy.github.io/feministeconomicsproject/";
 
 const rounds = [
   {
