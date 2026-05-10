@@ -1154,7 +1154,28 @@ function renderSetup() {
         <p class="compact-note">
           ${count} seats ready.
         </p>
+<div class="qr-panel">
 
+  <img
+    src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(classroomShareUrl())}"
+    alt="QR code"
+  />
+
+  <div>
+
+    <h3>Scan to join</h3>
+
+    <p class="compact-note">
+      Scan the QR code to open the session directly.
+    </p>
+
+    <a class="share-link" href="${classroomShareUrl()}">
+      ${classroomShareUrl()}
+    </a>
+
+  </div>
+
+</div>
         <div class="player-list">
 
           ${previewSeats.map((seat) => `
