@@ -158,6 +158,19 @@ async function createRoom() {
 
   return data;
 }
+async function loadPlayers() {
+  const { data, error } = await supabase
+    .from("players")
+    .select("*");
+
+  console.log("PLAYERS:");
+  console.log(data);
+
+  if (!error) {
+    state.players = data;
+    render();
+  }
+}
 function generateRoomCode() {
   return Math.random()
     .toString(36)
@@ -1938,6 +1951,23 @@ function animateHeroChart() {
 
 render();
 createRoom(); 
+supabase
+  .channel("room-updates")
+  .on(
+    "postgres_changes",
+    {
+      event: "*",
+      schema: "public",
+      table: "players",
+    },
+    payload => {
+      console.log("REALTIME UPDATE");
+      console.log(payload);
+
+      loadPlayers();
+    }
+  )
+  .subscribe();
 async function testConnection() {
   const { data, error } =
     await supabase
