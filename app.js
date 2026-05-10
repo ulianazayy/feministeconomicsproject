@@ -1283,15 +1283,18 @@ function renderSetup() {
       state.participantCount =
         Number(data.get("participantCount")) || 20;
 
-      state.roomCode = generateRoomCode();
+      createRoom().then(() => {
 
-      initializeGame();
+  initializeGame();
 
-      state.screen = "setup";
-      state.mode = "host";
+  state.screen = "setup";
+  state.mode = "host";
 
-      render();
-    });
+  render();
+
+});
+
+      
 }
 function renderProfile() {
   const player = selectedPlayer();
