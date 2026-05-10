@@ -1087,7 +1087,9 @@ function renderLanding() {
 }
 
 function renderSetup() {
-  const count = clamp(Number(state.participantCount) || 20, 4, 20);
+
+  const count =
+    clamp(Number(state.participantCount) || 20, 4, 20);
 
   const previewSeats =
     Array.from({ length: count }, (_, index) => index + 1);
@@ -1114,7 +1116,6 @@ function renderSetup() {
               name="playerName"
               maxlength="24"
               placeholder="Your name"
-              value="${escapeHtml(state.playerName)}"
             />
           </label>
 
@@ -1155,41 +1156,33 @@ function renderSetup() {
         <p class="compact-note">
           ${count} seats ready.
         </p>
-        <div style="margin:20px 0; text-align:center;">
 
-  <img
-    src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(classroomShareUrl())}"
-    alt="QR code"
-    style="width:220px; height:220px; border-radius:12px; background:white; padding:10px;"
-  />
+        <div class="qr-panel">
 
-  <p style="margin-top:12px; font-size:14px;">
-    Scan to join
-  </p>
+          <img
+            src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(classroomShareUrl())}"
+            alt="QR code"
+          />
 
-</div>
-<div class="qr-panel">
+          <div>
 
-  <img
-    src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(classroomShareUrl())}"
-    alt="QR code"
-  />
+            <h3>Scan to join</h3>
 
-  <div>
+            <p class="compact-note">
+              Scan the QR code to open the session directly.
+            </p>
 
-    <h3>Scan to join</h3>
+            <a
+              class="share-link"
+              href="${classroomShareUrl()}"
+            >
+              ${classroomShareUrl()}
+            </a>
 
-    <p class="compact-note">
-      Scan the QR code to open the session directly.
-    </p>
+          </div>
 
-    <a class="share-link" href="${classroomShareUrl()}">
-      ${classroomShareUrl()}
-    </a>
+        </div>
 
-  </div>
-
-</div>
         <div class="player-list">
 
           ${previewSeats.map((seat) => `
@@ -1206,48 +1199,51 @@ function renderSetup() {
   `;
 
   bindPageActions();
+
   document
-  .querySelector('[data-form="join"]')
-  .addEventListener("submit", (event) => {
+    .querySelector('[data-form="join"]')
+    .addEventListener("submit", (event) => {
 
-    event.preventDefault();
+      event.preventDefault();
 
-    const data = new FormData(event.currentTarget);
+      const data =
+        new FormData(event.currentTarget);
 
-  const roomCode =
-  data.get("roomCode");
+      const roomCode =
+        data.get("roomCode");
 
-supabase
-  .from("rooms")
-  .select("*")
-  .eq("code", roomCode)
-  .single()
-  .then(({ data: room }) => {
+      supabase
+        .from("rooms")
+        .select("*")
+        .eq("code", roomCode)
+        .single()
+        .then(({ data: room }) => {
 
-    if (!room) {
-      alert("Room not found");
-      return;
-    }
+          if (!room) {
+            alert("Room not found");
+            return;
+          }
 
-    state.playerName =
-      data.get("playerName");
+          state.playerName =
+            data.get("playerName");
 
-    state.roomCode =
-      room.code;
+          state.roomCode =
+            room.code;
 
-    state.participantCount =
-      room.participant_count;
+          state.participantCount =
+            room.participant_count;
 
-    initializeGame();
+          initializeGame();
 
-    state.screen = "intro";
+          state.screen = "intro";
 
-    render();
+          render();
 
-  });
+        });
 
-  });
-   }
+    });
+
+}
  function renderHostSetup() {
   app.innerHTML = `
     <section class="view setup-grid">
