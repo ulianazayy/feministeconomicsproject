@@ -171,6 +171,29 @@ async function loadPlayers() {
     render();
   }
 }
+async function assignSeat(roomId) {
+  const { data: players } = await supabase
+    .from("players")
+    .select("seat_number")
+    .eq("room_id", roomId);
+
+  const usedSeats = players.map(p => p.seat_number);
+
+  const availableSeats = [];
+
+  for (let i = 1; i <= state.participantCount; i++) {
+    if (!usedSeats.includes(i)) {
+      availableSeats.push(i);
+    }
+  }
+
+  const randomSeat =
+    availableSeats[
+      Math.floor(Math.random() * availableSeats.length)
+    ];
+
+  return randomSeat;
+}
 function generateRoomCode() {
   return Math.random()
     .toString(36)
@@ -392,9 +415,8 @@ function initializeGame() {
     startingSalary: 2500,
   };
   const count = clamp(Number(state.participantCount) || 20, 4, 20);
-  const selectedNumber = clamp(Number(state.participantNumber) || 1, 1, count);
+  const selectedNumber = 1;
   state.participantCount = count;
-  state.participantNumber = selectedNumber;
   state.players = Array.from({ length: count }, (_, index) => {
     const seatNumber = index + 1;
     const id = participantId(seatNumber);
@@ -1088,7 +1110,6 @@ function renderSetup() {
     state.playerName = String(data.get("playerName") || "").trim();
     state.roomCode = String(data.get("roomCode") || "A7Q4").trim().toUpperCase() || "A7Q4";
     state.participantCount = clamp(Number(data.get("participantCount")) || 20, 4, 20);
-    state.participantNumber = clamp(Number(data.get("participantNumber")) || 1, 1, state.participantCount);
     initializeGame();
     state.screen = "profile";
     render();
@@ -1825,7 +1846,6 @@ function bindPageActions() {
         state.screen = "landing";
         state.playerName = "";
         state.participantCount = 20;
-        state.participantNumber = 1;
         state.roomCode = "A7Q4";
         state.roundIndex = 0;
         state.outcome = null;
