@@ -1093,14 +1093,6 @@ function renderSetup() {
             Room code
             <input name="roomCode" maxlength="6" value="${escapeHtml(state.roomCode)}" />
           </label>
-          <label>
-            Total participants
-            <input name="participantCount" type="number" min="4" max="20" value="${count}" />
-          </label>
-          <label>
-            Your participant number
-            <input name="participantNumber" type="number" min="1" max="${count}" value="${escapeHtml(state.participantNumber)}" />
-          </label>
           <div class="form-actions">
             <button class="primary-button" type="submit">Join session</button>
             <button class="ghost-button" type="button" data-action="home">Back</button>
