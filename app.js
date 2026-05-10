@@ -1314,7 +1314,8 @@ function renderSetup() {
 
 });
 });
-   }
+   } 
+
 function renderProfile() {
   const player = selectedPlayer();
   app.innerHTML = `
@@ -2216,13 +2217,13 @@ supabase
       schema: "public",
       table: "players",
     },
-    payload => {
+    (payload) => {
       console.log("REALTIME UPDATE");
       console.log(payload);
 
       loadPlayers();
     }
-  )
+    )
   .subscribe();
 async function testConnection() {
   const { data, error } =
