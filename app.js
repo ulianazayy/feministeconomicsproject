@@ -1140,20 +1140,33 @@ function renderSetup() {
   `;
   bindPageActions();
   document.querySelector('[data-form="join"]').addEventListener("submit", async (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    state.playerName = String(data.get("playerName") || "").trim();
-    state.roomCode = String(data.get("roomCode") || "A7Q4").trim().toUpperCase() || "A7Q4";
-    state.participantCount = clamp(Number(data.get("participantCount")) || 20, 4, 20);
-  await joinRoom(state.playerName);
-state.participantCount = 20;
-state.participantNumber = 1;
-initializeGame();
+  event.preventDefault();
 
-state.screen = "profile";
+  const data = new FormData(event.currentTarget);
 
-render();
-  });
+  state.playerName = String(
+    data.get("playerName") || ""
+  ).trim();
+
+  state.roomCode = String(
+    data.get("roomCode") || ""
+  ).trim().toUpperCase();
+
+  const { data: players } = await supabase
+    .from("players")
+    .select("*")
+    .eq("room_code", state.roomCode);
+
+  const seatNumber = (players?.length || 0) + 1;
+
+  state.participantNumber = seatNumber;
+
+  initializeGame();
+
+  state.screen = "profile";
+
+  render();
+});
 }
 
 function renderProfile() {
