@@ -155,6 +155,10 @@ async function createRoom() {
   console.log("ROOM CREATED:");
   console.log(data);
   console.log(error);
+  if (data) {
+  state.roomCode = data.code;
+  render();
+}
 
   return data;
 }
