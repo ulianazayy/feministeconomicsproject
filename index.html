@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Same Start, Different Outcomes</title>
+    <meta
+      name="description"
+      content="Interactive life-course simulation about gender inequality, labor, and economic outcomes."
+    />
+    <link rel="stylesheet" href="styles.css?v=forensic-analysis" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar" aria-label="Application header">
+        <a class="brand" href="#" data-action="home" aria-label="Go to start">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <span>Same Start</span>
+        </a>
+        <nav class="topnav" aria-label="Primary">
+          <button class="nav-link" data-action="about">About</button>
+          <button class="nav-link" data-action="research">Research</button>
+          <button class="nav-link" data-action="reset">Reset</button>
+        </nav>
+      </header>
+
+      <main id="app" aria-live="polite"></main>
+    </div>
+
+    <template id="metric-template">
+      <article class="metric">
+        <span class="metric-label"></span>
+        <strong class="metric-value"></strong>
+      </article>
+    </template>
+
+    <script src="app.js?v=forensic-analysis"></script>
+  </body>
+</html>
