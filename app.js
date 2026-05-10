@@ -119,6 +119,7 @@ const rounds = [
 
 const state = {
   screen: "landing",
+  mode: null,
   playerName: "",
   participantCount: 20,
   participantNumber: 1,
@@ -1024,7 +1025,13 @@ function nextRound() {
 
 function render() {
   if (state.screen === "landing") renderLanding();
-  if (state.screen === "setup") renderSetup();
+  if (state.screen === "setup") {
+  if (state.mode === "host") {
+    renderHostSetup();
+  } else {
+    renderSetup();
+  }
+}
   if (state.screen === "profile") renderProfile();
   if (state.screen === "intro") renderIntro();
   if (state.screen === "round") renderRound();
@@ -1079,6 +1086,137 @@ function renderLanding() {
 function renderSetup() {
   const count = clamp(Number(state.participantCount) || 20, 4, 20);
   const previewSeats = Array.from({ length: count }, (_, index) => index + 1);
+  const isHost = state.mode === "host";
+   if (state.mode === "join") {
+
+    app.innerHTML = `
+      ...
+    `;
+
+    return;
+  }
+  function renderHostSetup() {
+  app.innerHTML = `
+    <section class="view setup-grid">
+      <div class="card">
+
+        <p class="eyebrow">Host room</p>
+
+        <h2>Create session</h2>
+
+        <p class="lead">
+          Configure the classroom simulation before participants join.
+        </p>
+
+        <form class="field-stack" data-form="host">
+
+          <label>
+            Total participants
+
+            <input
+              name="participantCount"
+              type="number"
+              min="4"
+              max="20"
+              value="${state.participantCount}"
+            />
+          </label>
+
+          <div class="form-actions">
+
+            <button class="primary-button" type="submit">
+              Create room
+            </button>
+
+            <button class="ghost-button" data-action="home">
+              Back
+            </button>
+
+          </div>
+
+        </form>
+
+      </div>
+    </section>
+  `;
+
+  document
+    .querySelector('[data-form="host"]')
+    .addEventListener("submit", (event) => {
+
+      event.preventDefault();
+
+      const data = new FormData(event.currentTarget);
+
+      state.participantCount =
+        Number(data.get("participantCount")) || 20;
+
+      state.roomCode = generateRoomCode();
+
+      initializeGame();
+
+      render();
+    });
+}
+  app.innerHTML = `
+<section class="view setup-grid">
+  <div class="card">
+    <p class="eyebrow">Host room</p>
+
+    <h2>Create a session</h2>
+
+    <p class="lead">
+      Configure the classroom simulation before participants join.
+    </p>
+
+    <form class="field-stack" data-form="host">
+
+      <label>
+        Total participants
+        <input
+          type="number"
+          name="participantCount"
+          min="4"
+          max="20"
+          value="${count}"
+        />
+      </label>
+
+      <div class="form-actions">
+        <button class="primary-button" type="submit">
+          Create session
+        </button>
+
+        <button class="ghost-button" data-action="home">
+          Back
+        </button>
+      </div>
+
+    </form>
+  </div>
+
+  <aside class="card room-preview">
+    <span class="room-code">${escapeHtml(state.roomCode)}</span>
+
+    <h3>Session preview</h3>
+
+    <p class="compact-note">
+      ${count} participant seats configured.
+    </p>
+
+    <div class="player-list">
+      ${previewSeats
+        .map((seatNumber, index) => `
+          <div class="player-row">
+            <span class="avatar ${index % 2 ? "" : "alt"}"></span>
+            <strong>${participantLabel(seatNumber)}</strong>
+          </div>
+        `)
+        .join("")}
+    </div>
+  </aside>
+</section>
+`;
   app.innerHTML = `
     <section class="view setup-grid">
       <div class="card">
@@ -1889,7 +2027,16 @@ function bindPageActions() {
       event.preventDefault();
       const action = element.dataset.action;
       if (action === "home") state.screen = "landing";
-      if (action === "join" || action === "host") state.screen = "setup";
+      if (action === "join") {
+  state.mode = "join";
+  state.screen = "setup";
+}
+
+if (action === "host") {
+  state.mode = "host";
+  state.screen = "setup";
+}
+    
       if (action === "setup") state.screen = "setup";
       if (action === "intro") state.screen = "intro";
       if (action === "start-rounds") state.screen = "round";
