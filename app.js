@@ -1154,6 +1154,19 @@ function renderSetup() {
         <p class="compact-note">
           ${count} seats ready.
         </p>
+        <div style="margin:20px 0; text-align:center;">
+
+  <img
+    src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(classroomShareUrl())}"
+    alt="QR code"
+    style="width:220px; height:220px; border-radius:12px; background:white; padding:10px;"
+  />
+
+  <p style="margin-top:12px; font-size:14px;">
+    Scan to join
+  </p>
+
+</div>
 <div class="qr-panel">
 
   <img
