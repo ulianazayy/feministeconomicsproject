@@ -6,7 +6,8 @@ const supabase = createClient(
 );
 const app = document.querySelector("#app");
 const params = new URLSearchParams(window.location.search);
-const joinRoomCode = params.get("join");
+const joinRoomCode =
+  params.get("join") || params.get("room");
 const metricTemplate = document.querySelector("#metric-template");
 function classroomShareUrl() {
   return `https://ulianazayy.github.io/feministeconomicsproject/?join=${state.roomCode}`;
@@ -2154,10 +2155,36 @@ function animateHeroChart() {
 }
 
 if (joinRoomCode) {
-  state.screen = "setup";
-  state.mode = "join";
+
+  state.roomCode = joinRoomCode;
+
+  supabase
+    .from("rooms")
+    .select("*")
+    .eq("code", joinRoomCode)
+    .single()
+    .then(({ data }) => {
+
+      if (data) {
+
+        state.participantCount =
+          data.participant_count;
+
+      }
+
+      state.screen = "setup";
+      state.mode = "join";
+
+      render();
+
+    });
+
+} else {
+
+  render();
+
 }
-render(); 
+
 supabase
   .channel("room-updates")
   .on(
