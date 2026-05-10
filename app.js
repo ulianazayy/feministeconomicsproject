@@ -1211,7 +1211,9 @@ function renderSetup() {
         new FormData(event.currentTarget);
 
       const roomCode =
-        data.get("roomCode");
+  data.get("roomCode")
+    .trim()
+    .toUpperCase();
 
       supabase
         .from("rooms")
