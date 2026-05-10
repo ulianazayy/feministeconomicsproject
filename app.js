@@ -1317,8 +1317,6 @@ supabase
 
 });
 
-      
-}
 function renderProfile() {
   const player = selectedPlayer();
   app.innerHTML = `
