@@ -1032,6 +1032,7 @@ function render() {
     renderSetup();
   }
 }
+  }
   if (state.screen === "profile") renderProfile();
   if (state.screen === "intro") renderIntro();
   if (state.screen === "round") renderRound();
@@ -2109,10 +2110,9 @@ function bindPageActions() {
 
 if (action === "host") {
   state.mode = "host";
-  state.screen = "setup";
+  state.screen = "host-setup";
 }
-    
-      if (action === "setup") state.screen = "setup";
+      // if (action === "setup") state.screen = "setup";
       if (action === "intro") state.screen = "intro";
       if (action === "start-rounds") state.screen = "round";
       if (action === "next-round") return nextRound();
