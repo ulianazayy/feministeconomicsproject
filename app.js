@@ -1024,22 +1024,24 @@ function nextRound() {
 }
 
 function render() {
+
   if (state.screen === "landing") renderLanding();
+
   if (state.screen === "setup") {
-  if (state.mode === "host") {
-    renderHostSetup();
-  } else {
-    renderSetup();
+    if (state.mode === "host") {
+      renderHostSetup();
+    } else {
+      renderSetup();
+    }
   }
-}
-  
+
   if (state.screen === "profile") renderProfile();
   if (state.screen === "intro") renderIntro();
   if (state.screen === "round") renderRound();
   if (state.screen === "final") renderFinal();
   if (state.screen === "research") renderResearch();
   if (state.screen === "about") renderAbout();
-  window.scrollTo({ top: 0, behavior: "smooth" });
+
 }
 
 function renderLanding() {
