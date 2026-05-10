@@ -122,7 +122,7 @@ const state = {
   playerName: "",
   participantCount: 20,
   participantNumber: 1,
-  roomCode: initialRoomCode,
+  roomCode: generateRoomCode(),,
   roundIndex: 0,
   outcome: null,
   players: [],
