@@ -1027,13 +1027,13 @@ function render() {
 
   if (state.screen === "landing") renderLanding();
 
-  if (state.screen === "setup") {
-    if (state.mode === "host") {
-      renderHostSetup();
-    } else {
-      renderSetup();
-    }
-  }
+ if (state.screen === "setup") {
+  renderSetup();
+}
+
+if (state.screen === "host-setup") {
+  renderHostSetup();
+}
 
   if (state.screen === "profile") renderProfile();
   if (state.screen === "intro") renderIntro();
@@ -1190,7 +1190,7 @@ function renderSetup() {
 
   });
    }
-  function renderHostSetup() {
+ function renderHostSetup() {
   app.innerHTML = `
     <section class="view setup-grid">
       <div class="card">
@@ -1235,6 +1235,8 @@ function renderSetup() {
     </section>
   `;
 
+  bindPageActions();
+
   document
     .querySelector('[data-form="host"]')
     .addEventListener("submit", (event) => {
@@ -1250,9 +1252,10 @@ function renderSetup() {
 
       initializeGame();
 
-state.screen = "setup";
-state.mode = "join";
-render();
+      state.screen = "setup";
+      state.mode = "join";
+
+      render();
     });
 }
 function renderProfile() {
