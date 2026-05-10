@@ -1403,7 +1403,7 @@ render();
     render();
 
 });
-}
+
 
 function renderProfile() {
   const player = selectedPlayer();
