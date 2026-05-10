@@ -1085,16 +1085,91 @@ function renderLanding() {
 
 function renderSetup() {
   const count = clamp(Number(state.participantCount) || 20, 4, 20);
-  const previewSeats = Array.from({ length: count }, (_, index) => index + 1);
-  const isHost = state.mode === "host";
-   if (state.mode === "join") {
 
-    app.innerHTML = `
-      ...
-    `;
+  const previewSeats =
+    Array.from({ length: count }, (_, index) => index + 1);
 
-    return;
-  }
+  app.innerHTML = `
+    <section class="view setup-grid">
+
+      <div class="card">
+
+        <p class="eyebrow">Join room</p>
+
+        <h2>Enter the session</h2>
+
+        <p class="lead">
+          Each person receives a neutral participant number.
+        </p>
+
+        <form class="field-stack" data-form="join">
+
+          <label>
+            Display name
+
+            <input
+              name="playerName"
+              maxlength="24"
+              placeholder="Your name"
+              value="${escapeHtml(state.playerName)}"
+            />
+          </label>
+
+          <label>
+            Room code
+
+            <input
+              name="roomCode"
+              maxlength="6"
+              value="${escapeHtml(state.roomCode)}"
+            />
+          </label>
+
+          <div class="form-actions">
+
+            <button class="primary-button" type="submit">
+              Join session
+            </button>
+
+            <button class="ghost-button" data-action="home">
+              Back
+            </button>
+
+          </div>
+
+        </form>
+
+      </div>
+
+      <aside class="card room-preview">
+
+        <span class="room-code">
+          ${escapeHtml(state.roomCode)}
+        </span>
+
+        <h3>Host lobby</h3>
+
+        <p class="compact-note">
+          ${count} seats ready.
+        </p>
+
+        <div class="player-list">
+
+          ${previewSeats.map((seat) => `
+            <div class="player-row">
+              <span>${participantLabel(seat)}</span>
+            </div>
+          `).join("")}
+
+        </div>
+
+      </aside>
+
+    </section>
+  `;
+
+  bindPageActions();
+   }
   function renderHostSetup() {
   app.innerHTML = `
     <section class="view setup-grid">
