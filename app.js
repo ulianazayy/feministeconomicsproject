@@ -1032,7 +1032,7 @@ function render() {
     renderSetup();
   }
 }
-  }
+  
   if (state.screen === "profile") renderProfile();
   if (state.screen === "intro") renderIntro();
   if (state.screen === "round") renderRound();
