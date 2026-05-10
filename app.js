@@ -1214,14 +1214,37 @@ function renderSetup() {
 
     const data = new FormData(event.currentTarget);
 
-    state.playerName = data.get("playerName");
-    state.roomCode = data.get("roomCode");
+  const roomCode =
+  data.get("roomCode");
+
+supabase
+  .from("rooms")
+  .select("*")
+  .eq("code", roomCode)
+  .single()
+  .then(({ data: room }) => {
+
+    if (!room) {
+      alert("Room not found");
+      return;
+    }
+
+    state.playerName =
+      data.get("playerName");
+
+    state.roomCode =
+      room.code;
+
+    state.participantCount =
+      room.participant_count;
 
     initializeGame();
 
     state.screen = "intro";
 
     render();
+
+  });
 
   });
    }
