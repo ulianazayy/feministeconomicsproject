@@ -1041,7 +1041,6 @@ function render() {
   if (state.screen === "final") renderFinal();
   if (state.screen === "research") renderResearch();
   if (state.screen === "about") renderAbout();
-
 }
 
 function renderLanding() {
@@ -1172,6 +1171,24 @@ function renderSetup() {
   `;
 
   bindPageActions();
+  document
+  .querySelector('[data-form="join"]')
+  .addEventListener("submit", (event) => {
+
+    event.preventDefault();
+
+    const data = new FormData(event.currentTarget);
+
+    state.playerName = data.get("playerName");
+    state.roomCode = data.get("roomCode");
+
+    initializeGame();
+
+    state.screen = "intro";
+
+    render();
+
+  });
    }
   function renderHostSetup() {
   app.innerHTML = `
@@ -1233,7 +1250,9 @@ function renderSetup() {
 
       initializeGame();
 
-      render();
+state.screen = "setup";
+state.mode = "join";
+render();
     });
 }
   app.innerHTML = `
