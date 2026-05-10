@@ -186,7 +186,41 @@ async function assignSeat(roomId) {
       availableSeats.push(i);
     }
   }
+async function joinRoom(playerName) {
+  const { data: room } = await supabase
+    .from("rooms")
+    .select("*")
+    .eq("code", state.roomCode)
+    .single();
 
+  if (!room) {
+    alert("Room not found");
+    return;
+  }
+
+  const seatNumber = await assignSeat(room.id);
+
+  const { data, error } = await supabase
+    .from("players")
+    .insert([
+      {
+        room_id: room.id,
+        display_name: playerName,
+        seat_number: seatNumber,
+      },
+    ])
+    .select()
+    .single();
+
+  console.log("PLAYER JOINED");
+  console.log(data);
+  console.log(error);
+
+  if (data) {
+    state.participantNumber = seatNumber;
+    loadPlayers();
+  }
+}
   const randomSeat =
     availableSeats[
       Math.floor(Math.random() * availableSeats.length)
@@ -1104,15 +1138,19 @@ function renderSetup() {
     </section>
   `;
   bindPageActions();
-  document.querySelector('[data-form="join"]').addEventListener("submit", (event) => {
+  document.querySelector('[data-form="join"]').addEventListener("submit", async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     state.playerName = String(data.get("playerName") || "").trim();
     state.roomCode = String(data.get("roomCode") || "A7Q4").trim().toUpperCase() || "A7Q4";
     state.participantCount = clamp(Number(data.get("participantCount")) || 20, 4, 20);
-    initializeGame();
-    state.screen = "profile";
-    render();
+  await joinRoom(state.playerName);
+
+initializeGame();
+
+state.screen = "profile";
+
+render();
   });
 }
 
