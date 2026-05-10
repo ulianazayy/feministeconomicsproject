@@ -1110,11 +1110,10 @@ function renderSetup() {
           ${count} neutral seats are ready. The preview intentionally hides gender-coded paths,
           care-risk levels, networking access, and leadership-bias coefficients.
         </p>
-        <div class="qr-panel">
-     <img
-  src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(classroomShareUrl())}"
-  alt="QR code"
-/>
+  <div class="qr-panel">
+  <img src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(classroomShareUrl())}" alt="QR code" />
+
+  <div>
           <div>
             <h3>Scan to join</h3>
             <p class="compact-note">
