@@ -1400,8 +1400,8 @@ render();
   initializeGame();
 
   state.screen = "profile";
+    render();
 
-  render();
 });
 }
 
