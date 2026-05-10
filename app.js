@@ -136,6 +136,34 @@ const state = {
     subsidizedElderCare: false,
   },
 };
+async function createRoom() {
+  const roomCode = generateRoomCode();
+
+  const { data, error } = await supabase
+    .from("rooms")
+    .insert([
+      {
+        code: roomCode,
+        participant_count: state.participantCount,
+        current_round: 0,
+        status: "lobby",
+      },
+    ])
+    .select()
+    .single();
+
+  console.log("ROOM CREATED:");
+  console.log(data);
+  console.log(error);
+
+  return data;
+}
+function generateRoomCode() {
+  return Math.random()
+    .toString(36)
+    .substring(2, 6)
+    .toUpperCase();
+}
 
 const hiddenProfiles = {
   feminine: {
@@ -1909,6 +1937,7 @@ function animateHeroChart() {
 }
 
 render();
+createRoom(); 
 async function testConnection() {
   const { data, error } =
     await supabase
