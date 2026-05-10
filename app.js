@@ -5,6 +5,8 @@ const supabase = createClient(
   "sb_publishable_lGw4GOJZfPM0dRD9OogiFg_bXJaCsMn"
 );
 const app = document.querySelector("#app");
+const params = new URLSearchParams(window.location.search);
+const joinRoomCode = params.get("join");
 const metricTemplate = document.querySelector("#metric-template");
 const classroomShareUrl = "https://ulianazayy.github.io/feministeconomicsproject/";
 
@@ -118,7 +120,7 @@ const state = {
   playerName: "",
   participantCount: 20,
   participantNumber: 1,
-  roomCode: "A7Q4",
+  roomCode: joinRoomCode || "A7Q4",
   roundIndex: 0,
   outcome: null,
   players: [],
@@ -2007,6 +2009,9 @@ function animateHeroChart() {
   requestAnimationFrame(draw);
 }
 
+if (joinRoomCode) {
+  state.screen = "setup";
+}
 render();
 createRoom(); 
 supabase
