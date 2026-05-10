@@ -1313,6 +1313,7 @@ function renderSetup() {
 
 });
 });
+   }
 function renderProfile() {
   const player = selectedPlayer();
   app.innerHTML = `
