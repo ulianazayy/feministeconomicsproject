@@ -1909,3 +1909,14 @@ function animateHeroChart() {
 }
 
 render();
+async function testConnection() {
+  const { data, error } =
+    await supabase
+      .from("players")
+      .select("*");
+
+  console.log(data);
+  console.log(error);
+}
+
+testConnection();
