@@ -1107,7 +1107,10 @@ function renderSetup() {
           care-risk levels, networking access, and leadership-bias coefficients.
         </p>
         <div class="qr-panel">
-          <img src="join-qr.png" alt="QR code for joining the classroom game" />
+          <img
+  src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(classroomShareUrl)}"
+  alt="QR code"
+/>
           <div>
             <h3>Scan to join</h3>
             <p class="compact-note">
@@ -1141,7 +1144,8 @@ function renderSetup() {
     state.roomCode = String(data.get("roomCode") || "A7Q4").trim().toUpperCase() || "A7Q4";
     state.participantCount = clamp(Number(data.get("participantCount")) || 20, 4, 20);
   await joinRoom(state.playerName);
-
+state.participantCount = 20;
+state.participantNumber = 1;
 initializeGame();
 
 state.screen = "profile";
