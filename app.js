@@ -8,7 +8,9 @@ const app = document.querySelector("#app");
 const params = new URLSearchParams(window.location.search);
 const joinRoomCode = params.get("join");
 const metricTemplate = document.querySelector("#metric-template");
-const classroomShareUrl = "https://ulianazayy.github.io/feministeconomicsproject/";
+function classroomShareUrl() {
+  return `https://ulianazayy.github.io/feministeconomicsproject/?room=${state.roomCode}`;
+}
 
 const rounds = [
   {
@@ -120,7 +122,7 @@ const state = {
   playerName: "",
   participantCount: 20,
   participantNumber: 1,
-  roomCode: joinRoomCode || "A7Q4",
+  roomCode: initialRoomCode,
   roundIndex: 0,
   outcome: null,
   players: [],
@@ -1109,8 +1111,8 @@ function renderSetup() {
           care-risk levels, networking access, and leadership-bias coefficients.
         </p>
         <div class="qr-panel">
-          <img
-  src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(classroomShareUrl)}"
+     <img
+  src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(classroomShareUrl())}"
   alt="QR code"
 />
           <div>
@@ -1119,7 +1121,7 @@ function renderSetup() {
               Participants should connect to the same Wi-Fi network, open the camera,
               scan this code, then enter their assigned participant number.
             </p>
-            <a class="share-link" href="${classroomShareUrl}">${classroomShareUrl}</a>
+            <a class="share-link" href="${classroomShareUrl()}">${classroomShareUrl()}</a>
           </div>
         </div>
         <div class="player-list">
@@ -1899,7 +1901,7 @@ function bindPageActions() {
         state.screen = "landing";
         state.playerName = "";
         state.participantCount = 20;
-        state.roomCode = "A7Q4";
+        state.roomCode = generateRoomCode();
         state.roundIndex = 0;
         state.outcome = null;
         state.players = [];
