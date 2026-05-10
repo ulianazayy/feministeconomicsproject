@@ -9,7 +9,7 @@ const params = new URLSearchParams(window.location.search);
 const joinRoomCode = params.get("join");
 const metricTemplate = document.querySelector("#metric-template");
 function classroomShareUrl() {
-  return `https://ulianazayy.github.io/feministeconomicsproject/?room=${state.roomCode}`;
+  return `https://ulianazayy.github.io/feministeconomicsproject/?join=${state.roomCode}`;
 }
 
 const rounds = [
@@ -1274,7 +1274,7 @@ function renderSetup() {
       initializeGame();
 
       state.screen = "setup";
-      state.mode = "join";
+      state.mode = "host";
 
       render();
     });
