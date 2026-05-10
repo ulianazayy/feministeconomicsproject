@@ -196,6 +196,13 @@ async function assignSeat(roomId) {
       availableSeats.push(i);
     }
   }
+  const randomSeat =
+  availableSeats[
+    Math.floor(Math.random() * availableSeats.length)
+  ];
+
+return randomSeat;
+} 
 async function joinRoom(playerName) {
   const { data: room } = await supabase
     .from("rooms")
@@ -231,13 +238,7 @@ async function joinRoom(playerName) {
     loadPlayers();
   }
 }
-  const randomSeat =
-    availableSeats[
-      Math.floor(Math.random() * availableSeats.length)
-    ];
-
-  return randomSeat;
-}
+  
 function generateRoomCode() {
   return Math.random()
     .toString(36)
